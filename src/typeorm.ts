@@ -5,6 +5,7 @@ import { envConfig } from './config/environment';
 const { dbUser, dbPassword, dbHost, dbName } = envConfig
 
 const DATABASE_URL = `postgres://${dbUser}:${dbPassword}@${dbHost}/${dbName}`
+console.log('TESTING URL', DATABASE_URL)
 
 const connectionLocal = new DataSource({
   type: 'postgres',
