@@ -75,6 +75,17 @@ export const boardSwaggerPath = {
                             }
                         }
                     }
+                },
+                500: {
+                    description: 'Server Error',
+                    content: {
+                        'text/plain': {
+                            schema: {
+                                type: 'string',
+                                example: 'Something went wrong'
+                            }
+                        }
+                    }
                 }
             }
         },
