@@ -1,23 +1,43 @@
 import { DataSource } from 'typeorm';
 import 'dotenv/config'
+import { envConfig } from './config/environment';
 
-const connection = new DataSource({
+const { dbUser, dbPassword, dbHost, dbName } = envConfig
+
+const DATABASE_URL = `postgres://${dbUser}:${dbPassword}@${dbHost}/${dbName}`
+
+const connectionLocal = new DataSource({
   type: 'postgres',
   port: 5432,
-  host: process.env.NODE_DB_HOST,
-  username: process.env.NODE_DB_USER_NAME,
-  password: process.env.NODE_DB_PASSWORD,
-  database: process.env.NODE_DB_NAME,
+  host: dbHost,
+  username: dbUser,
+  password: dbPassword,
+  database: dbName,
   entities: ['./src/models/*.ts'],
   migrations: ['./src/migrations/**/*.ts'],
   migrationsTableName: "migrations",
 });
 
+
+const connectionProd = new DataSource({
+  type: 'postgres',
+  port: 5432,
+  url: DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+  entities: ['./src/models/*.ts'],
+  migrations: ['./src/migrations/**/*.ts'],
+  migrationsTableName: "migrations",
+});
+
+const connection = process.env.NODE_ENV === 'development' ? connectionLocal : connectionProd
+
 const connectDB = async () => {
   try {
     await connection.initialize();
     console.log('Data Source has been initialized');
-  } catch (err) { 
+  } catch (err) {
     console.error(`Data Source initialization error: ${err}`);
   }
 };
