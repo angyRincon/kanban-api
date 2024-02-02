@@ -9,11 +9,11 @@ class Columns {
     @Column()
     name: string
 
-    @ManyToOne(() => Board)
+    @ManyToOne(() => Board, (board) => board.columns)
     @JoinColumn({ name: 'board_id' })
     board: Board;
 
-    @Column({nullable: false, type: "int", default: 0})
+    @Column({ nullable: false, type: "int", default: 0 })
     position: number;
 
     @Column({ name: 'created_at', type: 'timestamp', default: () => "CURRENT_TIMESTAMP" })

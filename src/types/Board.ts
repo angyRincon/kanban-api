@@ -1,6 +1,8 @@
+import { Column } from "./Column"
+
 export interface BoardInput {
     name: string
-    columns: string[]
+    columns: Column[]
 }
 
 export interface Board {

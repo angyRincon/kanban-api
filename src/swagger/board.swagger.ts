@@ -1,6 +1,6 @@
 import { uris } from "../config/uris"
 
-const { getBoardUri } = uris.board
+const { getBoardsUri } = uris.board
 
 export const swaggerBoardSchema = {
     Board: {
@@ -38,7 +38,7 @@ export const swaggerBoardSchema = {
             deletedAt: null
         }
     },
-    BoardInput: {
+    BoardCreateInput: {
         type: 'object',
         properties: {
             name: {
@@ -55,10 +55,38 @@ export const swaggerBoardSchema = {
             columns: ['Column 1', 'Column 2']
         }
     },
+    BoardUpdateInput: {
+        type: 'object',
+        properties: {
+            name: {
+                type: 'string',
+                description: 'The board name'
+            },
+            columns: {
+                type: 'array',
+                description: 'The columns list that will be added in the board'
+            }
+        },
+        example: {
+            name: 'My new Board',
+            columns: [
+                {
+                    id: 1,
+                    name: 'Column 1',
+                },
+                {
+                    id: 2,
+                    name: 'Column 2 updated'
+                },
+                'Column 3',
+                'Column 4'
+            ]
+        }
+    },
 }
 
 export const boardSwaggerPath = {
-    [getBoardUri]: {
+    [getBoardsUri]: {
         get: {
             tags: ['Board'],
             summary: "Gets a list of Boards",
@@ -97,7 +125,7 @@ export const boardSwaggerPath = {
                 content: {
                     'application/json': {
                         schema: {
-                            '$ref': '#/components/schemas/BoardInput'
+                            '$ref': '#/components/schemas/BoardCreateInput'
                         }
                     }
                 }
@@ -120,6 +148,32 @@ export const boardSwaggerPath = {
         }
     },
     '/board/{id}': {
+        get: {
+            tags: ['Board'],
+            summary: 'Get a board by id',
+            parameters: [{
+                in: 'path',
+                name: 'id',
+                schema: {
+                    required: true,
+                    type: 'string',
+                    description: 'The Board id that will be updated'
+                }
+            }],
+            responses: {
+                200: {
+                    description: 'Gets a single Board',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                '$ref': '#/components/schemas/Board'
+                            }
+                        }
+                    }
+                },
+            }
+        },
         put: {
             tags: ['Board'],
             summary: 'Updates an existing Board',
@@ -130,7 +184,6 @@ export const boardSwaggerPath = {
                     required: true,
                     type: 'string',
                     description: 'The Board id that will be updated'
-
                 }
             }],
             requestBody: {
@@ -138,7 +191,7 @@ export const boardSwaggerPath = {
                 content: {
                     'application/json': {
                         schema: {
-                            '$ref': '#/components/schemas/BoardInput'
+                            '$ref': '#/components/schemas/BoardUpdateInput'
                         }
                     }
                 }

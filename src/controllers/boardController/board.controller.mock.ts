@@ -1,4 +1,4 @@
-{
+export const boardInputCreate = {
     "name": "Test Board",
     "columns": [
         "column test 1",

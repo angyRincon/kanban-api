@@ -2,7 +2,8 @@ export const rootUri = '/api'
 
 export const uris = {
     board: {
-        getBoardUri: '/board',
+        getBoardsUri: '/board',
+        getBoardUri: '/board/:id',
         createBoardUri: '/board',
         updateBoardUri: '/board/:id',
         deleteBoardUri: '/board/:id'

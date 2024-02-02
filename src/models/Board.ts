@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn, ManyToOne, JoinColumn, OneToMany } from "typeorm";
+import Columns from "./Column";
 
 @Entity({ name: 'board' })
 class Board {
@@ -7,6 +8,10 @@ class Board {
 
     @Column()
     name!: string
+
+    @OneToMany(() => Columns, (column) => column.board)
+    @JoinColumn()
+    columns: Columns[]
 
     @Column({ name: 'created_at', type: 'timestamp', default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date
