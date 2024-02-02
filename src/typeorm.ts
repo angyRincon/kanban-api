@@ -6,8 +6,6 @@ const { dbUser, dbPassword, dbHost, dbName } = envConfig
 
 const DATABASE_URL = `postgres://${dbUser}:${dbPassword}@${dbHost}/${dbName}`
 
-console.log('TESTING URL ****8', DATABASE_URL)
-
 const connectionLocal = new DataSource({
   type: 'postgres',
   port: 5432,
